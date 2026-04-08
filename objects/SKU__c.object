@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Standard_Crop_Culture__c</fullName>
+        <label>Standard Crop Culture</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Algodão</fullName>
+                    <default>false</default>
+                    <label>Algodão</label>
+                </value>
+                <value>
+                    <fullName>Amendoim</fullName>
+                    <default>false</default>
+                    <label>Amendoim</label>
+                </value>
+                <value>
+                    <fullName>Areas não cultivadas</fullName>
+                    <default>false</default>
+                    <label>Areas não cultivadas</label>
+                </value>
+                <value>
+                    <fullName>Arroz irrigado</fullName>
+                    <default>false</default>
+                    <label>Arroz irrigado</label>
+                </value>
+                <value>
+                    <fullName>Arroz sequeiro</fullName>
+                    <default>false</default>
+                    <label>Arroz sequeiro</label>
+                </value>
+                <value>
+                    <fullName>Banana</fullName>
+                    <default>false</default>
+                    <label>Banana</label>
+                </value>
+                <value>
+                    <fullName>Batata</fullName>
+                    <default>false</default>
+                    <label>Batata</label>
+                </value>
+                <value>
+                    <fullName>Café</fullName>
+                    <default>false</default>
+                    <label>Café</label>
+                </value>
+                <value>
+                    <fullName>Cana de açúcar</fullName>
+                    <default>false</default>
+                    <label>Cana de açúcar</label>
+                </value>
+                <value>
+                    <fullName>Canola</fullName>
+                    <default>false</default>
+                    <label>Canola</label>
+                </value>
+                <value>
+                    <fullName>Cebola</fullName>
+                    <default>false</default>
+                    <label>Cebola</label>
+                </value>
+                <value>
+                    <fullName>Citros</fullName>
+                    <default>false</default>
+                    <label>Citros</label>
+                </value>
+                <value>
+                    <fullName>Feijão</fullName>
+                    <default>false</default>
+                    <label>Feijão</label>
+                </value>
+                <value>
+                    <fullName>Floricultura</fullName>
+                    <default>false</default>
+                    <label>Floricultura</label>
+                </value>
+                <value>
+                    <fullName>Fumo</fullName>
+                    <default>false</default>
+                    <label>Fumo</label>
+                </value>
+                <value>
+                    <fullName>Grãos armazenados</fullName>
+                    <default>false</default>
+                    <label>Grãos armazenados</label>
+                </value>
+                <value>
+                    <fullName>Horticulturas (outra</fullName>
+                    <default>false</default>
+                    <label>Horticulturas (outra</label>
+                </value>
+                <value>
+                    <fullName>Maçã</fullName>
+                    <default>false</default>
+                    <label>Maçã</label>
+                </value>
+                <value>
+                    <fullName>Mamão</fullName>
+                    <default>false</default>
+                    <label>Mamão</label>
+                </value>
+                <value>
+                    <fullName>Manga</fullName>
+                    <default>false</default>
+                    <label>Manga</label>
+                </value>
+                <value>
+                    <fullName>Melão/melancia</fullName>
+                    <default>false</default>
+                    <label>Melão/melancia</label>
+                </value>
+                <value>
+                    <fullName>Milho safra</fullName>
+                    <default>false</default>
+                    <label>Milho safra</label>
+                </value>
+                <value>
+                    <fullName>Pastagem</fullName>
+                    <default>false</default>
+                    <label>Pastagem</label>
+                </value>
+                <value>
+                    <fullName>Morango</fullName>
+                    <default>false</default>
+                    <label>Morango</label>
+                </value>
+                <value>
+                    <fullName>Reflorestamento</fullName>
+                    <default>false</default>
+                    <label>Reflorestamento</label>
+                </value>
+                <value>
+                    <fullName>Soja</fullName>
+                    <default>false</default>
+                    <label>Soja</label>
+                </value>
+                <value>
+                    <fullName>Sorgo</fullName>
+                    <default>false</default>
+                    <label>Sorgo</label>
+                </value>
+                <value>
+                    <fullName>Tomate envarado</fullName>
+                    <default>false</default>
+                    <label>Tomate envarado</label>
+                </value>
+                <value>
+                    <fullName>Tomate rasteiro</fullName>
+                    <default>false</default>
+                    <label>Tomate rasteiro</label>
+                </value>
+                <value>
+                    <fullName>Trigo/aveia/cev</fullName>
+                    <default>false</default>
+                    <label>Trigo/aveia/cev</label>
+                </value>
+                <value>
+                    <fullName>Uvas</fullName>
+                    <default>false</default>
+                    <label>Uvas</label>
+                </value>
+                <value>
+                    <fullName>MILHO SAFRINHA</fullName>
+                    <default>false</default>
+                    <label>MILHO SAFRINHA</label>
+                </value>
+                <value>
+                    <fullName>EUCALIPTO</fullName>
+                    <default>false</default>
+                    <label>EUCALIPTO</label>
+                </value>
+                <value>
+                    <fullName>LARANJA</fullName>
+                    <default>false</default>
+                    <label>LARANJA</label>
+                </value>
+                <value>
+                    <fullName>LIMÃO</fullName>
+                    <default>false</default>
+                    <label>LIMÃO</label>
+                </value>
+                <value>
+                    <fullName>PINUS</fullName>
+                    <default>false</default>
+                    <label>PINUS</label>
+                </value>
+                <value>
+                    <fullName>TANGERINA</fullName>
+                    <default>false</default>
+                    <label>TANGERINA</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+</CustomObject>

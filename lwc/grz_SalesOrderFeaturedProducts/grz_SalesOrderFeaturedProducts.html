@@ -1,0 +1,1512 @@
+<template>
+    <div class="mainCompment">
+        <div class="spinner-container slds-is-relative" if:true={isSpinner}>
+            <lightning-spinner alternative-text="Loading" variant="brand" size="Medium"></lightning-spinner>
+        </div>
+        <!--div class="tab-header">
+        <template for:each={categoria} for:item="tech">
+            <div key={tech}
+                 class="tab {isActive(tech)}"
+                 data-tech={tech}
+                 onclick={handleTabClick}>
+                {tech}
+            </div>
+        </template>
+        
+    </div-->
+        <c-grz_-custom-toast-event></c-grz_-custom-toast-event>
+        <template if:true={isShowSOList}>
+            <c-grz_-custom-carousel data-id="customCarousel"></c-grz_-custom-carousel>
+            <div class="slds-m-vertical_xx-small">
+                <div class="slds-theme_shade">
+                    <div class="slds-grid">
+                        <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert">
+                            <span class="slds-assistive-text">warning</span>
+                            <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small"
+          title="Description of icon when needed">
+          <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+          </svg>
+        </span>
+                            <h2 class="customAlertBanner slds-text-heading_large">{label.Grz_CommunityUserText}&nbsp;
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-text-heading_large slds-m-vertical_medium"><b>Últimos Pedidos Criados</b></div>
+            <template if:true={isSalesOrdersAvailable}>
+                <div class="desktop">
+                    <div class="slds-grid slds-wrap table-width-scroll">
+                        <table class="slds-m-bottom_small">
+                            <thead class="componentNotoSansLight table-head">
+                                <tr>
+                                    <th class="slds-p-left_x-small table-head-css" scope="col">
+                                        <div class="slds-truncate" title="Pedido de Venda">Número do Pedido</div>
+                                    </th>
+                                    <th class="slds-p-left_x-small table-head-css" scope="col">
+                                        <div class="slds-truncate" title="Status do Pedido">Status do Pedido</div>
+                                    </th>
+                                    <th class="slds-p-left_x-small table-head-css" scope="col">
+                                        <div class="slds-truncate" title="Data de Criação">Data de Criação do Pedido
+                                        </div>
+                                    </th>
+                                    <th class="slds-p-left_x-small table-head-css" scope="col">
+                                        <div class="slds-truncate" title="CTC">Solicitante</div>
+                                    </th>
+                                    <th class="slds-p-left_x-small table-head-css" scope="col">
+                                        <div class="slds-truncate" title="Cliente">Cliente</div>
+                                    </th>
+                                    <th class="slds-p-left_x-small table-head-css" scope="col">
+                                        <div class="slds-truncate" title="Cidade">Cidade</div>
+                                    </th>
+                                    <th class="slds-p-left_x-small table-head-css" scope="col">
+                                        <div class="slds-truncate" title="Moeda">Moeda</div>
+                                    </th>
+                                    <th class="slds-p-left_x-small table-head-css" scope="col">
+                                        <div class="slds-truncate" title="Valor Total">Valor do Pedido</div>
+                                    </th>
+                                    <th class="slds-p-left_x-small table-head-css" scope="col">
+                                        <div class="slds-truncate" title="Tipo de Pedido">Tipo de Pedido</div>
+                                    </th>
+                                    <!--GRZ(Nikhil Verma) : APPS-1394 PO & Delivery Date :28-07-2022-->
+                                    <th class="slds-p-left_x-small table-head-css" scope="col">
+                                        <div class="slds-truncate" title="Pedido">Pedido</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-body">
+                                <template for:each={salesOrderList} for:item="Sorder">
+                                    <tr key={Sorder.Id} class="slds-border_bottom bgcolormobile shadoweffect">
+                                        <td class="slds-p-left_x-small table-body-css br-mobile-view">
+                                            <a data-value={Sorder.Id} onclick={handleOrderDetail} href={detailPageLink}
+                                                target="_blank"
+                                                class="order-link textoverflowcls">{Sorder.SFDCOrderNumber}</a>
+                                        </td>
+                                        <td class="slds-p-left_x-small table-body-css br-mobile-view" scope="col">
+                                            <div class="textoverflowcls">{Sorder.InvoiceStatus}</div>
+                                        </td>
+                                        <td class="slds-p-left_x-small table-body-css br-mobile-view" scope="col">
+                                            <div class="textoverflowcls">{Sorder.CreatedDate}</div>
+                                        </td>
+                                        <td class="slds-p-left_x-small table-body-css br-mobile-view" scope="col">
+                                            <div class="textoverflowcls">{Sorder.SalesRepName}</div>
+                                        </td>
+                                        <td class="slds-p-left_x-small table-body-css br-mobile-view" scope="col">
+                                            <div class="textoverflowcls">{Sorder.SoldToPartyName}</div>
+                                        </td>
+                                        <td class="slds-p-left_x-small table-body-css br-mobile-view" scope="col">
+                                            <div class="textoverflowcls">{Sorder.City}</div>
+                                        </td>
+                                        <td class="slds-p-left_x-small table-body-css br-mobile-view" scope="col">
+                                            <div class="textoverflowcls">{Sorder.CurrencyBrazil}</div>
+                                        </td>
+                                        <td class="slds-p-left_x-small table-body-css br-mobile-view" scope="col">
+                                            <div class="textoverflowcls">
+                                                <lightning-formatted-number value={Sorder.Amount}
+                                                    minimum-fraction-digits="0">
+                                                </lightning-formatted-number>
+                                            </div>
+                                        </td>
+                                        <td class="slds-p-left_x-small table-body-css br-mobile-view" scope="col">
+                                            <div class="textoverflowcls">{Sorder.OrderType}</div>
+                                        </td>
+                                        <td style="cursor:pointer;"
+                                            class="slds-p-left_x-small table-body-css br-mobile-view" scope="col">
+                                            <div class="textoverflowcls">
+                                                <div>
+                                                    <a href={Sorder.soUrl} download="Pedidos de Venda.pdf"
+                                                        target="_blank" onclick={showSpinnerWithDelay}>
+                                                        <lightning-icon icon-name="doctype:pdf" size="small"
+                                                            class="iconclr">
+                                                        </lightning-icon>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mobile">
+                    <template for:each={salesOrderList} for:item="Sorder">
+                        <article key={Sorder.Id} class="slds-card slds-m-bottom_small slds-p-around_medium">
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div class="slds-grid slds-wrap slds-var-p-bottom_x-small">
+                                    <div class="slds-size_1-of-1 slds-text-title_caps slds-text-color_weak">Pedido de
+                                        Venda
+                                    </div>
+                                    <div class="slds-size_1-of-1">
+                                        <a data-value={Sorder.Id} onclick={handleOrderDetail} href={detailPageLink}
+                                            target="_blank" class="slds-text-link">
+                                            {Sorder.SFDCOrderNumber}
+                                        </a>
+                                    </div>
+
+                                    <div class="slds-size_1-of-2"><strong>Status:</strong> {Sorder.InvoiceStatus}</div>
+                                    <div class="slds-size_1-of-2"><strong>Data:</strong> {Sorder.CreatedDate}</div>
+                                    <div class="slds-size_1-of-2"><strong>CTC:</strong> {Sorder.SalesRepName}</div>
+                                    <div class="slds-size_1-of-2"><strong>Cliente:</strong> {Sorder.SoldToPartyName}
+                                    </div>
+                                    <div class="slds-size_1-of-2"><strong>Cidade:</strong> {Sorder.City}</div>
+                                    <div class="slds-size_1-of-2"><strong>Moeda:</strong> {Sorder.CurrencyBrazil}</div>
+                                    <div class="slds-size_1-of-2"><strong>Valor: </strong>
+                                        <lightning-formatted-number value={Sorder.Amount} minimum-fraction-digits="0">
+                                        </lightning-formatted-number>
+                                    </div>
+                                    <div class="slds-size_1-of-2"><strong>Tipo:</strong> {Sorder.OrderType}</div>
+                                </div>
+
+                                <footer>
+                                    <div class="slds-size_1-of-1">
+                                        <button class="slds-button baixarPDF slds-button_stretch slds-m-top_small" data-id={Sorder.soUrl} onclick={handlePdfClick}>
+   <lightning-icon icon-name="doctype:pdf" size="small" alternative-text="Download PDF" class="slds-m-right_xx-small"></lightning-icon>
+Baixar PDF
+</button>
+                                    </div>
+                                </footer>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </template>
+            <template if:false={isSalesOrdersAvailable}>
+                <div class="slds-text-align_center slds-text-heading_medium">Nenhum pedido de venda criado</div>
+            </template>
+            <div class="slds-grid slds-grid_align-center slds-m-vertical_medium">
+                <button class="slds-button slds-button_neutral buySalesOrder" onclick={createNewSalesOrder}><b>Compre agora</b></button>
+            </div>
+        </template>
+        <template if:false={isShowSOList}>
+            <div class="colTab">
+                <lightning-tabset active-tab-value={labelsJson2.All}>
+                    <template for:each={categoria} for:item="tab">
+                        <lightning-tab label={tab} key={tab} value={tab} onactive={handleActive}>
+                        </lightning-tab>
+                    </template>
+                </lightning-tabset>
+            </div>
+            <div class="NavigationBar">
+                <div class="navbar slds-grid slds-wrap slds-p-around_small slds-theme_default slds-grid_align-end">
+                    <div class="slds-col slds-size_1-of-1 mobile">
+                        <div class="slds-grid slds-gutters slds-grid_align-end">
+                            <div class="slds-col">
+                                <template if:true={isDisableOpenCart}>
+                                    <lightning-button-icon variant="bare" icon-name="utility:cart" size="large"
+                                        alternative-text="Cart" onclick={goToCart}></lightning-button-icon>
+                                    <span class="cart-badge">{addtoCartCounter}</span>
+                                </template>
+                                <template if:false={isDisableOpenCart}>
+                                    <lightning-button-icon variant="bare" icon-name="utility:cart" size="large"
+                                        alternative-text="Cart" disabled></lightning-button-icon>
+                                    <span class="cart-badge">{addtoCartCounter}</span>
+                                </template>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-button-icon icon-name="utility:rows" variant="bare" alternative-text="Menu"
+                                    onclick={toggleMenu}></lightning-button-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-large-size_12-of-12 desktop">
+                        <div class="slds-grid slds-grid_align-end slds-gutters_xxx-small slds-align-middle">
+                            <div class="slds-col"><a href="#" style="text-decoration:none;"
+                                    class="slds-text-body_regular slds-p-horizontal_small">{labelsJson.Update_Detail}
+                                    ></a>
+                            </div>
+                            <div class="slds-col">
+                                <div class="dropdown" onmouseleave={handleOutsideClick}>
+                                    <div class={computedClass} data-key="delivery" onclick={toggleDropdown}>
+                                        {labelsJson.Delivery_Type}
+                                        ▼</div>
+                                    <template if:true={isDeliveryOpen}>
+                                        <div
+                                            class="slds-dropdown slds-dropdown_middle slds-dropdown_xx-small slds-dropdown_length-5 custom-dropdown">
+                                            <ul class="slds-dropdown__list" role="menu">
+                                                <template for:each={deliveryDropDownList} for:item="option">
+                                                    <li key={option.value} data-key="delivery" data-value={option.value}
+                                                        onclick={handleSelection} class="slds-dropdown__item">
+                                                        <a role="menuitemcheckbox" tabindex="0" href="#">
+                                                            <span class="slds-truncate" title={option.label}>
+                                                <template if:true={option.checked}>
+                                                    <lightning-icon icon-name="utility:check" size="x-small" alternative-text="Selected" class="slds-m-right_x-small"></lightning-icon>
+                                                </template>
+                                                <template if:false={option.checked}>
+                                                    <span class="slds-m-right_x-small" style="display: inline-block; width: 16px; height: 16px;"></span>
+                                                </template>
+                                                {option.label}
+                                                </span>
+                                                </a>
+                                                </li>
+                                    </template>
+                                    </ul>
+                                </div>
+        </template>
+    </div>
+    </div>
+    <div class="slds-col">
+        <div class="dropdown" onmouseleave={handleOutsideClick}>
+            <div class={computedClass} data-key="currency" onclick={toggleDropdown} onmouseout={closeDropdown}>
+                {label.Currency} ▼
+            </div>
+            <template if:true={isCurrencyOpen}>
+                <div class="slds-dropdown slds-dropdown_middle slds-dropdown_xxx-small">
+                    <ul class="slds-dropdown__list" role="menu">
+                        <template for:each={currencyDropDownList} for:item="option">
+                            <li key={option.value} data-key="currency" data-value={option.value}
+                                onclick={handleSelection} class="slds-dropdown__item">
+                                <a role="menuitemcheckbox" tabindex="0" href="#">
+                                    <span class="slds-truncate" title={option.label}>
+                                                <template if:true={option.checked}>
+                                                    <lightning-icon icon-name="utility:check" size="x-small" alternative-text="Selected" class="slds-m-right_x-small"></lightning-icon>
+                                                </template>
+                                                <template if:false={option.checked}>
+                                                    <span class="slds-m-right_x-small" style="display: inline-block; width: 16px; height: 16px;"></span>
+                        </template>
+                        {option.label}
+                        </span>
+                        </a>
+                        </li>
+            </template>
+            </ul>
+        </div>
+</template>
+</div>
+</div>
+<div class="slds-col">
+    <div class="dropdown" onmouseleave={handleOutsideClick}>
+        <div class={computedClass} data-key="payment" onclick={toggleDropdown} onmouseout={closeDropdown}>
+            {label.Payment_Terms} ▼</div>
+        <template if:true={isPaymentOpen}>
+            <div class="slds-dropdown slds-dropdown_middle slds-dropdown_xx-small slds-dropdown_length-5">
+                <ul class="slds-dropdown__list" role="menu">
+                    <template for:each={paymentTermDropDownList} for:item="option">
+                        <li key={option.value} data-key="payment" data-value={option.value} onclick={handleSelection}
+                            class="slds-dropdown__item">
+                            <a role="menuitemcheckbox" tabindex="0" href="#">
+                                <span class="slds-truncate" title={option.label}>
+                                                <template if:true={option.checked}>
+                                                    <lightning-icon icon-name="utility:check" size="x-small" alternative-text="Selected" class="slds-m-right_x-small"></lightning-icon>
+                                                </template>
+                                                <template if:false={option.checked}>
+                                                    <span class="slds-m-right_x-small" style="display: inline-block; width: 16px; height: 16px;"></span>
+                    </template>
+                    {option.label}
+                    </span>
+                    </a>
+                    </li>
+        </template>
+        </ul>
+    </div>
+    </template>
+</div>
+</div>
+<div class="slds-col slds-m-horizontal_x-small">
+    <span><a href="#" onclick={backToList}>{labelsJson2.Home}</a></span>
+</div>
+<div class="slds-col cart-icon slds-m-horizontal_x-small">
+    <template if:true={isDisableOpenCart}>
+        <lightning-button-icon variant="bare" icon-name="utility:cart" size="large" alternative-text="Cart"
+            onclick={viewCart}></lightning-button-icon>
+        <span class="cart-badge">{addtoCartCounter}</span>
+    </template>
+    <template if:false={isDisableOpenCart}>
+        <lightning-button-icon variant="bare" icon-name="utility:cart" size="large" alternative-text="Cart" disabled>
+        </lightning-button-icon>
+        <span class="cart-badge">{addtoCartCounter}</span>
+    </template>
+</div>
+</div>
+</div>
+<template if:true={isMenuOpen}>
+    <div class="slds-col slds-size_1-of-1 mobile slds-p-top_small">
+        <!-- Outer grid with right alignment -->
+        <div class="slds-grid slds-grid_vertical-align-start slds-grid_align-end slds-is-relative">
+            <!-- Inner wrapper to hug the content -->
+            <div class="slds-text-align_right" style="width: max-content;">
+                <div class="slds-col slds-m-bottom_small">
+                    <span><a href="#" onclick={backToList}>{labelsJson2.Home}</a></span>
+                </div>
+                <div class="slds-col slds-m-vertical_small">
+                    <div class="dropdown">
+                        <div class={computedMobileClass} data-key="delivery" onclick={toggleDropdown}
+                            onmouseout={closeDropdown}>{labelsJson.Delivery_Type}</div>
+                        <template if:true={isDeliveryOpen}>
+                            <div
+                                class="slds-dropdown slds-dropdown_right slds-dropdown_xx-small slds-dropdown_length-5 custom-dropdown">
+                                <ul class="slds-dropdown__list" role="menu">
+                                    <template for:each={deliveryDropDownList} for:item="option">
+                                        <li key={option.value} data-key="delivery" data-value={option.value}
+                                            onclick={handleSelection} class="slds-dropdown__item">
+                                            <a role="menuitemcheckbox" tabindex="0" href="#">
+                                                <span class="slds-truncate" title={option.label}>
+                                                <template if:true={option.checked}>
+                                                    <lightning-icon icon-name="utility:check" size="x-small" alternative-text="Selected" class="slds-m-right_x-small"></lightning-icon>
+                                                </template>
+                                                <template if:false={option.checked}>
+                                                    <span class="slds-m-right_x-small" style="display: inline-block; width: 16px; height: 16px;"></span>
+                                    </template>
+                                    {option.label}
+                                    </span>
+                                    </a>
+                                    </li>
+                        </template>
+                        </ul>
+                    </div>
+</template>
+</div>
+</div>
+<div class="slds-col slds-m-vertical_small">
+    <div class="dropdown">
+        <div class={computedMobileClass} data-key="currency" onclick={toggleDropdown} onmouseout={closeDropdown}>
+            {label.Currency}
+        </div>
+        <template if:true={isCurrencyOpen}>
+            <div class="slds-dropdown slds-dropdown_right slds-dropdown_xxx-small">
+                <ul class="slds-dropdown__list" role="menu">
+                    <template for:each={currencyDropDownList} for:item="option">
+                        <li key={option.value} data-key="currency" data-label={option.label} data-value={option.value}
+                            onclick={handleSelection} class="slds-dropdown__item">
+                            <a role="menuitemcheckbox" tabindex="0" href="#">
+                                <span class="slds-truncate" title={option.label}>
+                                                <template if:true={option.checked}>
+                                                    <lightning-icon icon-name="utility:check" size="x-small" alternative-text="Selected" class="slds-m-right_x-small"></lightning-icon>
+                                                </template>
+                                                <template if:false={option.checked}>
+                                                    <span class="slds-m-right_x-small" style="display: inline-block; width: 16px; height: 16px;"></span>
+                    </template>
+                    {option.label}
+                    </span>
+                    </a>
+                    </li>
+        </template>
+        </ul>
+    </div>
+    </template>
+</div>
+</div>
+<div class="slds-col slds-m-vertical_small">
+    <div class="dropdown">
+        <div class={computedMobileClass} data-key="payment" onclick={toggleDropdown} onmouseout={closeDropdown}>
+            {label.Payment_Terms}</div>
+        <template if:true={isPaymentOpen}>
+            <div class="slds-dropdown slds-dropdown_right slds-dropdown_xx-small slds-dropdown_length-5">
+                <ul class="slds-dropdown__list" role="menu">
+                    <template for:each={paymentTermDropDownList} for:item="option">
+                        <li key={option.value} data-key="payment" data-value={option.value} onclick={handleSelection}
+                            class="slds-dropdown__item">
+                            <a role="menuitemcheckbox" tabindex="0" href="#">
+                                <span class="slds-truncate" title={option.label}>
+                                                <template if:true={option.checked}>
+                                                    <lightning-icon icon-name="utility:check" size="x-small" alternative-text="Selected" class="slds-m-right_x-small"></lightning-icon>
+                                                </template>
+                                                <template if:false={option.checked}>
+                                                    <span class="slds-m-right_x-small" style="display: inline-block; width: 16px; height: 16px;"></span>
+                    </template>
+                    {option.label}
+                    </span>
+                    </a>
+                    </li>
+        </template>
+        </ul>
+    </div>
+    </template>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</template>
+</div>
+<template if:true={isShowModal}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- modal header start -->
+            <header class="slds-modal__header header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                    {labelsJson.SO_Selection_Modal_Header}
+                </h2>
+            </header>
+
+            <!-- modal body start -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div class="slds-grid slds-wrap slds-gutters slds-m-around_xx-small ">
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1">
+                        <template if:true={showKeyAccount}>
+                            <div class="slds-grid slds-wrap">
+                                <div
+                                    class="slds-col slds-size_4-of-12 slds-text-align_left slds-p-around_xx-small boxlabel">
+                                    <label class="radio-label"><b>{label.KeyAccountText} :</b> </label>
+                                </div>
+                                <div
+                                    class="slds-col slds-size_6-of-12 slds-text-align_left slds-p-around_xx-small boxvalue">
+                                    <lightning-radio-group name="Key Account Text" class="radio-combo-inline"
+                                        data-id="keyAccount" label={label.KeyAccountText} options={accountKeyyOptions}
+                                        type="radio" value={defaultValue} variant="label-hidden"
+                                        onchange={handleKeyAccountSelection}>
+                                    </lightning-radio-group>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1">
+                        <template if:true={showSeller}>
+                            <div class="slds-grid slds-wrap">
+                                <div
+                                    class="look-up slds-col slds-size_4-of-12 slds-text-align_left slds-p-top_small boxlabel">
+                                    <label class=""><b><span class="required">*</span>{label.Seller} : </b></label>
+                                </div>
+                                <div
+                                    class="slds-col slds-size_6-of-12 slds-text-align_left slds-p-around_xx-small boxvalue">
+                                    <c-grz_sales-order-reusable-modal class="seller" data-id="sellerOptions"
+                                        multiselect={isMultiselect} inputlabel='' placeholder={label.Grz_SelectSeller}
+                                        searchlabel={label.Grz_SelectSeller} modalheader={label.Grz_SelectSeller}
+                                        maindata={sellerOptionsList} columns={sellerColumns}
+                                        onmycustomevent={handleSellerChange} islookuprequired=false>
+                                    </c-grz_sales-order-reusable-modal>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1
+                            slds-large-size_1-of-1">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_4-of-12 slds-text-align_left slds-p-top_small boxlabel">
+                                <label class="radio-label"><b><span class="required">*</span>{labelsJson.Business_ID} : </b></label>
+                            </div>
+                            <div
+                                class="slds-col slds-size_6-of-12 slds-text-align_left slds-p-around_xx-small boxvalue">
+                                <c-grz_-custom-reusable-combo-box data-id="custitem" iconname="standard:account"
+                                    options={comboBoxAccounts} value={selItem.Id} onchange={handleRowAction}
+                                    fields={fieldsList}>
+                                </c-grz_-custom-reusable-combo-box>
+                                <!-- <c-grz_sales-order-reusable-modal class={inputClass} data-id="custitem"
+                                        multiselect={isMultiselect} inputlabel='' placeholder={label.Select_Customer}
+                                        searchlabel={label.Search_Customer} modalheader={label.Customer}
+                                        maindata={accountList} columns={accountTableColumns}
+                                        onmycustomevent={handleRowAction} islookuprequired=false>
+                                    </c-grz_sales-order-reusable-modal> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="customer-info slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-1">
+                        <div class="slds-m-horizontal_medium">
+                            <span><b>{labelsJson2.Cust_Name} : {selItem.Name}</b></span>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-truncate">
+                                    <span><b>{labelsJson2.City} : </b>{selItem.BillingCity}</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-truncate">
+                                    <span><b>{labelsJson2.State} : </b>{selItem.Customer_Region__c}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1
+                            slds-large-size_1-of-1">
+                        <div class="slds-grid slds-wrap">
+                            <div
+                                class="slds-col slds-size_4-of-12 slds-text-align_left slds-p-around_xx-small boxlabel">
+                                <label class="radio-label"><b><span class="required">*</span>{label.Currency} : </b></label>
+                            </div>
+                            <div
+                                class="slds-col slds-size_6-of-12 slds-text-align_left slds-p-around_xx-small boxvalue">
+                                <lightning-radio-group name="Currency" class="radio-combo-inline"
+                                    data-id="currencyOptions" options={currencyOptions} type="radio"
+                                    value={selectedCurrency} onchange={handleCurrencySelect} variant="label-hidden">
+                                </lightning-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1
+                            slds-large-size_1-of-1">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_4-of-12 slds-text-align_left slds-p-top_small boxlabel">
+                                <label class="radio-label"><b><span class="required">*</span>{label.Payment_Terms} : </b></label>
+                            </div>
+                            <div
+                                class="slds-col slds-size_6-of-12 slds-text-align_left slds-p-around_xx-small boxvalue">
+                                <lightning-combobox name="Payment Terms" data-id="paymentTerm"
+                                    label={label.Payment_Terms} options={paymentTermOptions} value={selectedPaymentTerm}
+                                    variant="label-hidden" onchange={handlePaymentTermChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                    </div>
+                    <template if:true={isMature}>
+                        <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1
+                            slds-large-size_1-of-1">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_4-of-12 slds-text-align_left slds-p-top_small boxlabel">
+                                    <label class="radio-label"><b><span class="required">*</span>{label.Maturity_Date} : </b></label>
+                                </div>
+                                <div
+                                    class="slds-col slds-size_6-of-12 slds-text-align_left slds-p-around_xx-small boxvalue">
+
+                                    <lightning-input type="date" data-id="maturityDateOmModal"
+                                        value={newSalesOrder.Maturity_Date__c} onchange={handleMaturityDateChange}
+                                        onblur={restrictMaturityDate} variant="label-hidden"></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1
+                            slds-large-size_1-of-1">
+                        <div class="slds-grid slds-wrap">
+                            <div
+                                class="slds-col slds-size_4-of-12 slds-text-align_left slds-p-around_xx-small boxlabel">
+                                <p>
+                                    <label class="radio-label"><b><span class="required">*</span>{labelsJson.Delivery_Type} : </b></label>
+                                </p>
+                            </div>
+                            <div
+                                class="slds-col slds-size_6-of-12 slds-text-align_left slds-p-around_xx-small boxvalue">
+                                <lightning-radio-group name="Delivery" class="radio-combo-inline" data-id="keyAccount"
+                                    options={deliveryOptions} type="radio" value={selectedDelivery}
+                                    onchange={handleDeliveryChange} variant="label-hidden">
+                                </lightning-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1">
+                        <div class="button-container">
+                            <button class="custom-btn slds-button slds-button_neutral" label="CLEAR" onclick={handleClear}>{labelsJson2.CLEAR}</button>
+                            <button class="custom-btn slds-button slds-button_brand" label="SUBMIT" onclick={handleSubmit}>{labelsJson2.SUBMIT}</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+</div>
+<div class="featuredProducts">
+    <template if:true={featuredProudcts}>
+        <c-grz_-custom-carousel data-id="customCarousel"></c-grz_-custom-carousel>
+        <div class="slds-text-align_center slds-m-bottom_large">
+            <div class="slds-grid slds-wrap">
+            <div class="slds-text-heading_large slds-text-align_left slds-m-vertical_medium">
+                <strong><i>{labelsJson.Featured_Products}</i></strong>
+            </div>
+             <div class="slds-m-bottom_medium slds-align_absolute-center">
+                    <lightning-input type="search" value={searchProducts}
+                        onchange={handleProductSearchChange}
+                        class="slds-size_medium">
+                    </lightning-input>
+                </div>
+            </div>
+
+            <template if:true={paginatedProducts}>
+                <div class="featuredProucts slds-grid slds-wrap slds-gutters_small">
+                    <template for:each={paginatedProducts} for:item="product">
+                        <div key={product.id}
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-6 slds-p-around_small">
+                            <article class="slds-card">
+                                <div class="slds-card__body slds-p-around_medium">
+                                    <div class="slds-align_absolute-center" data-id={product.Name}
+                                        onclick={handleViewProduct}>
+                                        <div style={product.bhome} class="product-image">
+                                            <template if:true={product.ImageUrl}>
+                                                <img src={product.ImageUrl} alt={product.Name} class="slds-size_full fixed-product-img" />
+                                            </template>
+                                            <template if:false={product.ImageUrl}>
+                                                <img src="/img/no_image_available.png" alt="No Image" class="slds-size_full fixed-product-img" />
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="slds-m-top_medium slds-text-align_left">
+                                        <p class="slds-text-title_bold slds-truncate slds-m-vertical_x-small">
+                                            {product.Name}</p>
+                                        <div>
+                                            <button data-id={product.Name} class="slds-button slds-button_brand viewProduct" onclick={handleViewProduct}>
+                                   {labelsJson2.View_Prod}
+                                    </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <div class="slds-grid slds-grid_align-center slds-m-vertical_medium">
+                <button class="slds-button slds-button_neutral" onclick={handlePrevPage} disabled={isFirstPage}>{labelsJson2.Previous}</button>
+                <span class="slds-m-horizontal_medium slds-m-vertical_x-small">{labelsJson2.Page} {currentPage} of {totalPages}</span>
+                <button class="slds-button slds-button_neutral" onclick={handleNextPage} disabled={isLastPage}>{labelsJson2.Next}</button>
+            </div>
+        </div>
+    </template>
+</div>
+</template>
+<template if:true={isShowProductPage}>
+    <div style={productStyle} class="Productpage">
+        <div class="slds-p-vertical_large slds-grid slds-wrap container">
+            <div
+                class="slds-small-size_1-of-1 slds-medium-size_1-of-1  slds-large-size_3-of-12 slds-p-horizontal_small image-wrapper">
+                <img src={selectedImage} alt="Main Product Image" class="main-image">
+            </div>
+            <div
+                class="skuTable slds-box slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_8-of-12 slds-p-around_small table-wrapper">
+                <h2 class="slds-text-heading_large slds-text-title_bold custom-header">{productTitle}</h2>
+                <p class="slds-m-top_small slds-text-body_small">Plataforma de Vendas de Produtos Próximo ao Vencimento
+                    - B2B</p>
+                <div class="slds-scrollable_x">
+                    <table
+                        class="customTable slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-table_compact slds-m-top_small">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col">
+                                    <div class="slds-truncate" title={labelsJson.Description}>{labelsJson.Description}
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title={labelsJson.Expiry_Date}>{labelsJson.Expiry_Date}
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title={labelsJson2.Depot}>{labelsJson2.Depot}
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title={labelsJson.Unit_Price}>Preço Especial AVEC<!--{labelsJson.Unit_Price}-->
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <template if:false={isCommunityUser}>
+                                        <div class="slds-truncate" title={labelsJson.Invoice_Date}>
+                                            {labelsJson.Invoice_Date}
+                                        </div>
+                                    </template>
+                                    <template if:true={isCommunityUser}>
+                                        <div class="slds-truncate">
+                                            Data prevista de entrega
+                                        </div>
+                                    </template>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title={labelsJson.Qty_Available}>
+                                        {labelsJson.Qty_Available}</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title={labelsJson.Enter_Qty}>{labelsJson.Enter_Qty}</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title={labelsJson.Total}>Valor Total AVEC<!--{labelsJson.Total}--></div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={visibleRows} for:item="variant" for:index="index">
+                                <tr key={variant.Ids} class="slds-hint-parent">
+                                    <td data-label="Description" class="tabledatacss mx-mobile-view">
+                                        <div class="sKUName" title={variant.description}>{variant.SKUName}</div>
+                                    </td>
+                                    <td data-label="Expiry Date" class="tabledatacss mx-mobile-view">
+                                        <div class="slds-truncate" title={variant.expiry}>
+                                            <lightning-formatted-date-time value={variant.Batch_Expire_date}
+                                                year="numeric" month="numeric" day="numeric" time-zone="UTC">
+                                            </lightning-formatted-date-time>
+                                        </div>
+                                    </td>
+                                    <td data-label="Expiry Date" class="tabledatacss mx-mobile-view">
+                                        <div class="slds-truncate" title={variant.depot}>
+                                            <div class="sKUName" title={variant.depot}>{variant.depot}</div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Unit Price" class="tabledatacss mx-mobile-view">
+                                        <template if:false={variant.fatDate}>
+                                            <div class="sKUName">Informe a data de Faturamento</div>
+                                        </template>
+                                        <template if:true={variant.fatDate}>
+                                            {newSalesOrder.CurrencyIsoCode} <lightning-formatted-number
+                                                value={variant.unitValueWithInterest} format-style="decimal"
+                                                minimum-fraction-digits="2" maximum-fraction-digits="2">
+                                            </lightning-formatted-number>
+                                        </template>
+                                        <!-- <lightning-input type="number" data-id={variant.id} data-index={index}
+                                                name="inputunitval" onblur={handleUpdatePrice} data-field="unitValue"
+                                                value={variant.BrazilPrice} formatter="decimal" step="0.01"
+                                                variant="label-hidden" onkeypress={handleKeyPress} disabled></lightning-input> -->
+                                    </td>
+                                    <td class="tabledatacss mx-mobile-view" style="width:130px;">
+                                        <template if:false={isCommunityUser}>
+                                            <div class="date-field-container" data-id={variant.Ids}
+                                                data-label="Invoice Date">
+                                                <lightning-input type="date" time-zone="UTC" data-id={variant.Ids}
+                                                    data-index={index} name="inputdate" onchange={inputInvoiceDate}
+                                                    data-field="fatDate" value={variant.fatDate} variant="label-hidden">
+                                                </lightning-input>
+                                            </div>
+                                        </template>
+                                        <template if:true={isCommunityUser}>
+                                            <div class="date-field-container" data-id={variant.Ids}
+                                                data-label="Delivery Date">
+                                                <lightning-input type="date" time-zone="UTC" data-id={variant.Ids}
+                                                    data-index={index} name="deliveryDate" data-field="deliveryDate"
+                                                    value={variant.deliveryDate} variant="label-hidden" disabled>
+                                                </lightning-input>
+                                            </div>
+                                        </template>
+                                    </td>
+                                    <td data-label="Qty Available" class="tabledatacss mx-mobile-view">
+                                        <div class="slds-truncate" title={variant.availableQty}>
+                                            <lightning-formatted-number value={variant.Available_Quantity}
+                                                format-style="decimal" minimum-fraction-digits="2"
+                                                maximum-fraction-digits="2">
+                                            </lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                    <td data-label="Enter Qty" class="tabledatacss mx-mobile-view">
+                                        <div class="slds-truncate">
+                                            <!-- <template if:false={isCommunityUser}> -->
+                                            <template if:true={variant.qty}>
+                                                <lightning-input type="number" value={variant.qty} data-id={variant.Ids}
+                                                    data-index={index} onfocus={updateOldBalanceQty}
+                                                    onblur={validateQuantity} formatter="decimal" step="0.01"
+                                                    onkeypress={handleKeyPress} variant="label-hidden">
+                                                </lightning-input>
+                                            </template>
+                                            <template if:false={variant.qty}>
+                                                <lightning-input type="number" value='' data-id={variant.Ids}
+                                                    data-index={index} onfocus={updateOldBalanceQty}
+                                                    onblur={validateQuantity} formatter="decimal" step="0.01"
+                                                    onkeypress={handleKeyPress}>
+                                                </lightning-input>
+                                            </template>
+                                            <!-- </template> -->
+                                            <!-- <template if:true={isCommunityUser}>
+                                                <template if:true={variant.qty}>
+                                                    <lightning-input type="number" value={variant.qty}
+                                                        data-id={variant.Ids} data-index={index}
+                                                        placeholder={variant.multipleOf} onfocus={updateOldBalanceQty}
+                                                        onblur={validateQuantity} formatter="decimal" step="0.01"
+                                                        onkeypress={handleKeyPress} variant="label-hidden" pla>
+                                                    </lightning-input>
+                                                </template>
+                                                <template if:false={variant.qty}>
+                                                    <lightning-input type="number" value='' data-id={variant.Ids}
+                                                        data-index={index} onfocus={updateOldBalanceQty}
+                                                        placeholder={variant.multipleOf} onblur={validateQuantity}
+                                                        formatter="decimal" step="0.01" onkeypress={handleKeyPress}>
+                                                    </lightning-input>
+                                                </template>
+                                            </template> -->
+                                        </div>
+                                    </td>
+                                    <td data-label="Total" class="tabledatacss mx-mobile-view">
+                                        <template if:true={variant.totalValue}>
+                                            <div class="slds-truncate">
+                                                {newSalesOrder.CurrencyIsoCode} <lightning-formatted-number
+                                                    value={variant.totalValue} data-id={variant.Ids}
+                                                    format-style="decimal" minimum-fraction-digits="2"
+                                                    maximum-fraction-digits="2">
+                                                </lightning-formatted-number>
+                                            </div>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="tabledatacss mx-mobile-view"></td>
+                                <td class="tabledatacss mx-mobile-view"><strong>{labelsJson.Total}</strong></td>
+                                <td class="tabledatacss mx-mobile-view">
+                                    <template if:true={totalQty}>
+                                        <lightning-formatted-number value={totalQty} format-style="decimal"
+                                            minimum-fraction-digits="2" maximum-fraction-digits="2">
+                                        </lightning-formatted-number>
+                                    </template>
+                                </td>
+                                <td class="tabledatacss mx-mobile-view">
+                                    <template if:true={totalPrice}>
+                                        {newSalesOrder.CurrencyIsoCode}. <lightning-formatted-number value={totalPrice}
+                                            format-style="decimal" minimum-fraction-digits="2"
+                                            maximum-fraction-digits="2">
+                                        </lightning-formatted-number>
+                                    </template>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-3">
+                        <p class="slds-m-top_medium slds-text-body_small">Produtos com data próxima ao vencimento (Entre
+                            1 a 6 meses)</p>
+                    </div>
+                    <div class="slds-col slds-size_2-of-3">
+                        <div class="cta-container">
+                            <template if:true={showMoreOrLess}>
+                                <div class="cta-link">
+                                    <a href="#" onclick={showMoreProducts}>{tableExpandLabel}</a>
+                                </div>
+                            </template>
+                            <div class="cta-buttons">
+                                <template if:false={buttonDisabled}>
+                                    <button class="slds-button slds-button_brand cta-btn" onclick={addToCart} disabled={buttonDisabled}>{labelsJson.Add_to_Cart}</button>
+                                </template>
+                                <button class="slds-button slds-button_brand backToProductBtn cta-btn" onclick={backToList}>Ver Outros Produtos</button>
+                                <button class="slds-button slds-button_success cta-btn" onclick={buyNow} disabled={buttonBuyNowDisabled}>{labelsJson.Buy_Now}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="slds-m-top_xxx-small">
+            <div class="slds-grid slds-grid_align-spread slds-border_bottom">
+                <div class="slds-col decriptiontab">
+                    <lightning-tabset>
+                        <lightning-tab label={labelsJson.Description} class="custom-tab-label">
+                            <div class="description" lwc:dom="manual"></div>
+                            <ul class="slds-m-top_x-small">
+                            </ul>
+                        </lightning-tab>
+                    </lightning-tabset>
+                </div>
+                <!-- Download Button -->
+                <div class="slds-m-top_medium slds-is-absolute downloadInstuctions">
+                    <lightning-button label={labelsJson2.DownLoad_Btn} icon-name="utility:download" variant="brand"
+                        onclick={downloadProductInstructions}>
+                    </lightning-button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-m-vertical_small">
+            <div class="slds-m-bottom_medium">
+                <h1 class="slds-text-align_center informationHeader">Informações adicionais</h1>
+            </div>
+            <div class="slds-m-vertical_large" role="group">
+                <template for:each={buttons} for:item="tab">
+                    <button key={tab.key} class={tab.buttonClass} onclick={handleBtnClick} data-label={tab.label} data-key={tab.key}><div data-key={tab.key} class="slds-m-horizontal_x-large" onclick={handleBtnClick}>{tab.label}</div></button>
+                </template>
+                <div class="slds-border_top brand-border slds-m-vertical_medium infoCard">
+                    <div class="slds-m-bottom_medium">
+                        <div class="slds-p-around_medium info" lwc:dom="manual"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <template if:true={isShowDownloadModal}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+                aria-describedby="modal-content-id-2" class="slds-modal slds-modal_medium slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- modal header start -->
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideDownloadModalBox}>
+                    <lightning-icon icon-name="utility:close"
+                    alternative-text="close"
+                    variant="inverse"
+                    size="small" ></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                        <h2 class="slds-text-heading_large slds-text-color_success">{labelsJson2.Tech_Material}</h2>
+                    </header>
+
+                    <!-- modal body start -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                        <div class="slds-p-around_medium slds-text-align_center">
+                            <div
+                                class="slds-grid slds-gutters slds-gutters_medium slds-wrap slds-m-top_medium slds-grid_align-center">
+                                <template for:each={productData.pdfs} for:item="doc">
+                                    <div key={doc.id}
+                                        class="slds-col slds-m-vertical_small slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                                        <div key={doc.id} data-id={doc.url}
+                                            class="card slds-box slds-p-around_medium slds-cursor_pointer slds-text-align_center"
+                                            onclick={downloadFile}>
+                                            <svg class="pdf-icon" width="32" height="32"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                style="enable-background:new 0 0 128 128;" version="1.1"
+                                                viewBox="0 0 128 128" xml:space="preserve">
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g>
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path
+                                                                    d="M104,126H24c-5.514,0-10-4.486-10-10V12c0-5.514,4.486-10,10-10h40.687      c2.671,0,5.183,1.041,7.07,2.929l39.314,39.314c1.889,1.889,2.929,4.399,2.929,7.07V116C114,121.514,109.514,126,104,126z M24,6      c-3.309,0-6,2.691-6,6v104c0,3.309,2.691,6,6,6h80c3.309,0,6-2.691,6-6V51.313c0-1.579-0.641-3.125-1.757-4.242L68.929,7.757      C67.796,6.624,66.289,6,64.687,6H24z"
+                                                                    style="fill:#FD4233;"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path
+                                                                    d="M95.21,80.32c-0.07-0.51-0.48-1.15-0.92-1.58c-1.26-1.24-4.03-1.89-8.25-1.95      c-2.86-0.03-6.3,0.22-9.92,0.73c-1.62-0.93-3.29-1.95-4.6-3.18c-3.53-3.29-6.47-7.86-8.31-12.89c0.12-0.47,0.22-0.88,0.32-1.3      c0,0,1.98-11.28,1.46-15.1c-0.07-0.52-0.12-0.67-0.26-1.08l-0.17-0.44c-0.54-1.25-1.6-2.57-3.26-2.5L60.32,41H60.3      c-1.86,0-3.36,0.95-3.76,2.36c-1.2,4.44,0.04,11.09,2.29,19.69l-0.58,1.4c-1.61,3.94-3.63,7.9-5.41,11.39l-0.23,0.45      c-1.88,3.67-3.58,6.79-5.13,9.43l-1.59,0.84c-0.12,0.06-2.85,1.51-3.49,1.89c-5.43,3.25-9.03,6.93-9.63,9.85      c-0.19,0.94-0.05,2.13,0.92,2.68l1.54,0.78c0.67,0.33,1.38,0.5,2.1,0.5c3.87,0,8.36-4.82,14.55-15.62      c7.14-2.32,15.28-4.26,22.41-5.32c5.43,3.05,12.11,5.18,16.33,5.18c0.75,0,1.4-0.07,1.92-0.21c0.81-0.22,1.49-0.68,1.91-1.3      C95.27,83.76,95.43,82.06,95.21,80.32z M36.49,99.33c0.7-1.93,3.5-5.75,7.63-9.13c0.26-0.21,0.9-0.81,1.48-1.37      C41.28,95.72,38.39,98.46,36.49,99.33z M60.95,43c1.24,0,1.95,3.13,2.01,6.07c0.06,2.94-0.63,5-1.48,6.53      c-0.71-2.26-1.05-5.82-1.05-8.15C60.43,47.45,60.38,43,60.95,43z M53.65,83.14c0.87-1.55,1.77-3.19,2.69-4.92      c2.25-4.25,3.67-7.57,4.72-10.3c2.1,3.82,4.72,7.07,7.79,9.67c0.39,0.32,0.8,0.65,1.22,0.98C63.82,79.8,58.41,81.31,53.65,83.14      z M93.08,82.79c-0.38,0.23-1.47,0.37-2.17,0.37c-2.26,0-5.07-1.03-9-2.72c1.51-0.11,2.9-0.17,4.14-0.17      c2.27,0,2.94-0.01,5.17,0.56C93.44,81.4,93.47,82.55,93.08,82.79z"
+                                                                    style="fill:#FF402F;"></path>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+                                                <g></g>
+
+                                            </svg>
+                                            <p class="doc-title">{doc.title}</p>
+                                            <a href="#" target="_blank" class="download-link">Baixe aqui</a>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- modal footer start-->
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={hideDownloadModalBox}>{labelsJson.Cancel}</button>
+                    </footer>
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </div>
+</template>
+<template if:true={isShowShoppingCart}>
+    <div class="ShoppingCart">
+        <div class="">
+            <div class="slds-grid slds-wrap">
+                <div
+                    class="slds-col slds-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-1 slds-progress slds-progress_shade">
+                    <div class="progress-container">
+                        <div class="step" onclick={handleClick} data-step="1">
+                            <div class={productSelectionClass}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Outer rounded dashed border -->
+                                    <rect x="3" y="3" width="18" height="18" rx="3" ry="3" stroke="#28a745"
+                                        stroke-width="2" stroke-dasharray="4 4" fill="none" />
+
+                                    <!-- Inner filled square -->
+                                    <rect x="8" y="8" width="8" height="8" rx="1" ry="1" fill="#28a745" />
+                                </svg>
+
+                            </div>
+                            <p class={productSelectionTextClass}>{labelsJson.Product_Selection}</p>
+                        </div>
+
+                        <div class={lineOneClass}></div>
+
+                        <div class="step" onclick={handleClick} data-step="2">
+                            <div class={shoppingCartClass}>
+                                <lightning-icon icon-name="utility:cart" alternative-text="cart" title="cart"
+                                    part="icon" size="small" class={cartIconClass}>
+                                </lightning-icon>
+                            </div>
+                            <p class={shoppingCartTextClass}>{labelsJson.Shopping_Cart}</p>
+                        </div>
+
+                        <div class={lineTwoClass}></div>
+                        <div class="step" onclick={handleClick} data-step="3">
+                            <div class={salesOrderClass}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="20" height="20"
+                                    class={iconClass}>
+                                    <g fill="#000000">
+                                        <path
+                                            d="M4 16v32h4a8 8 0 0 0 16 0h16a8 8 0 0 0 16 0h4V32l-8-12H36V16H4zm4 4h24v8H12zm28 0h11.2l5.6 8H36zm-28 4h20v4H8zm4 20a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm32 0a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+                                    </g>
+                                </svg>
+
+                            </div>
+                            <p class={salesOrderTextClass}>{labelsJson.Sales_Order}</p>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="slds-col slds-small-size_2-of-3 slds-medium-size_2-of-3 slds-large-size_1-of-1 slds-p-around_medium">
+                    <div class="detailsection slds-grid slds-wrap slds-gutters">
+                        <div
+                            class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_2-of-5 equal-box">
+                            <h3 class="boxheading slds-text-title_bold slds-m-left_medium slds-m-vertical_x-small">
+                                {labelsJson.DELIVERY_ADDRESS}</h3>
+                            <div class="detailbox slds-grid slds-wrap slds-p-vertical_small slds-m-around_small">
+                                <div
+                                    class="slds-col slds-small-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_1-of-12">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20"
+                                        height="20">
+                                        <circle cx="50" cy="50" r="40" stroke="none" fill="#00C853" />
+                                        <circle cx="50" cy="50" r="20" fill="#FFFFFF" />
+                                    </svg>
+                                </div>
+                                <div
+                                    class="slds-col slds-small-size_10-of-12 slds-medium-size_10-of-12 slds-large-size_11-of-12">
+                                    <p>
+                                        <strong>{selItem.Account_Name__c}</strong>
+                                    </p>
+                                    <p><b>{labelsJson.Address} :</b> {billingAddress}</p>
+                                    <p><b>{labelsJson.Phone} :</b> {selItem.Mobile__c}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_2-of-5 equal-box">
+                            <h3 class="boxheading slds-text-title_bold slds-m-left_medium slds-m-vertical_x-small">
+                                {labelsJson2.Cust_Details}</h3>
+                            <div class="detailbox slds-grid slds-wrap slds-p-vertical_small slds-m-around_small">
+                                <div
+                                    class="slds-col slds-small-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_1-of-12">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20"
+                                        height="20">
+                                        <circle cx="50" cy="50" r="40" stroke="none" fill="#00C853" />
+                                        <circle cx="50" cy="50" r="20" fill="#FFFFFF" />
+                                    </svg>
+                                </div>
+                                <div
+                                    class="slds-col slds-small-size_10-of-12 slds-medium-size_10-of-12 slds-large-size_11-of-12">
+                                    <p>
+                                        <strong>{selItem.Account_Name__c}</strong>
+                                    </p>
+                                    <p><b>{labelsJson.Business_Number} :</b> {taxNumber}</p>
+                                    <p><b>{labelsJson.SAP_Code} :</b> {selItem.SAP_Code__c}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="desktop slds-card">
+                <div class="slds-card__header slds-grid slds-p-horizontal_small">
+                    <h2 class="slds-text-title_bold boxheading">{labelsJson.ORDER_SUMMARY}</h2>
+                </div>
+
+                <div class="">
+                    <table class="slds-table slds-table_bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>{labelsJson.Product_Description}</th>
+                                <th>
+                                    <template if:false={isCommunityUser}>
+                                        {labelsJson.Invoice_Date}
+                                    </template>
+                                    <template if:true={isCommunityUser}>
+                                        Data prevista de entrega
+                                    </template>
+                                </th>
+                                <th>{labelsJson.Price}</th>
+                                <th>{labelsJson.Quantity}</th>
+                                <th>Subtotal AVEC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={items} for:item="item" for:index="index">
+                                <tr key={item.id}>
+                                    <td class="tabledatacss mx-mobile-view">
+                                        <div class="slds-grid slds-grid_vertical-align-center">
+                                            <div class="slds-m-right_small">
+                                                <img src={item.productImage} alt="Product Image" style="width: 100px; height: 70px;" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="tabledatacss mx-mobile-view">
+                                        <div class="slds-grid slds-grid_vertical-align-center">
+                                            <div class="slds-m-right_small">
+                                                <p>{item.SKUName}</p>
+                                                <p class="slds-text-body_small"><b>{labelsJson.SKU_Code} : </b>
+                                                    {item.Sku_Code}</p>
+                                                <p class="slds-text-body_small"><b>{labelsJson.Expiry_Date} : </b>
+                                                    <lightning-formatted-date-time value={item.Batch_Expire_date}
+                                                        year="numeric" month="numeric" day="numeric" time-zone="UTC">
+                                                    </lightning-formatted-date-time>
+                                                </p>
+                                                <p class="slds-text-body_small"><b>{labelsJson2.Depot} : </b>
+                                                    {item.depot}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="tabledatacss mx-mobile-view">
+                                        <template if:false={isCommunityUser}>
+                                            <lightning-input type="date" time-zone="UTC" data-id={item.uid}
+                                                data-index={index} class="slds-scrollable_none" style="overflow: hidden"
+                                                name="inputdate" onchange={inputInvoiceDate} data-field="fatDate"
+                                                value={item.fatDate} variant="label-hidden">
+                                            </lightning-input>
+                                        </template>
+                                        <template if:true={isCommunityUser}>
+                                            <lightning-input type="date" time-zone="UTC" data-id={item.uid}
+                                                data-index={index} class="slds-scrollable_none" style="overflow: hidden"
+                                                name="deliveryDate" data-field="deliveryDate" value={item.deliveryDate}
+                                                variant="label-hidden" disabled>
+                                            </lightning-input>
+                                        </template>
+
+                                    </td>
+                                    <td>
+                                        <template if:false={item.fatDate}>
+                                            <div class="">Informe a data de Faturamento</div>
+                                        </template>
+                                        <template if:true={item.fatDate}>
+                                            <span class="slds-text-title_bold mx-mobile-view">{newSalesOrder.CurrencyIsoCode} <lightning-formatted-number
+                                                    value= {item.unitValueWithInterest} format-style="decimal"
+                                                    minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number></span>
+                                        </template>
+                                        <!-- <span class="slds-text-color_weak slds-line-through mx-mobile-view"> {newSalesOrder.CurrencyIsoCode} {item.USDPrice}</span> -->
+                                    </td>
+                                    <td class="tabledatacss mx-mobile-view">
+                                            <lightning-input type="number" value={item.qty} data-index={index}
+                                                data-id={item.uid} onblur={quantityChange} formatter="decimal"
+                                                step="0.01" onfocus={updateOldBalanceQtyOnCart}
+                                                onkeypress={handleKeyPress} variant="label-hidden">
+                                            </lightning-input>
+                                    </td>
+                                    <td>{newSalesOrder.CurrencyIsoCode} <lightning-formatted-number
+                                            value={item.totalValue} format-style="decimal" minimum-fraction-digits="2"
+                                            maximum-fraction-digits="2">
+                                        </lightning-formatted-number>
+                                    </td>
+                                    <td class="tabledatacss mx-mobile-view">
+                                        <lightning-button-icon icon-name="utility:delete" alternative-text="delete"
+                                            data-id={item.uid} data-index={index} onclick={handleRemove}>
+                                        </lightning-button-icon>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <template if:true={isShowShippingInfo}>
+                    <div class="slds-p-around_small">
+                        <div class="slds-grid slds-grid_align-spread">
+                            <span>Shipping for this delivery</span>
+                            <!-- <span>{newSalesOrder.CurrencyIsoCode}{shipping}</span>  -->
+                        </div>
+                        <div class="slds-text-color_weak">Receive within 2 business days</div>
+                    </div>
+                </template>
+            </div>
+            <div class="mobile">
+                <div class="tablemarginTop slds-card">
+                    <div class="slds-card__header slds-grid slds-p-horizontal_small">
+                        <h2 class="slds-text-title_bold boxheading">{labelsJson.ORDER_SUMMARY}</h2>
+                    </div>
+                    <template for:each={items} for:item="item" for:index="index">
+                        <div key={item.id} class="mTile">
+                            <div class="slds-grid slds-wrap slds-gutters container">
+                                <div class="slds-col slds-size_1-of-3 image-wrapper">
+                                    <img src={item.productImage} alt="Product Image" class="main-image"/>
+                                </div>
+                                <div class="slds-col slds-size_2-of-3 table-wrapper">
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 mx-mobile-view">
+                                            <b>{labelsJson.SKU_Code} : </b>{item.Sku_Code}
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 mx-mobile-view">
+                                            <b>{labelsJson.Expiry_Date} : </b>
+                                            <lightning-formatted-date-time value={item.Batch_Expire_date} year="numeric"
+                                                month="numeric" day="numeric" time-zone="UTC">
+                                            </lightning-formatted-date-time>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 mx-mobile-view">
+                                            <b>{labelsJson.Invoice_Date} : </b> {item.fatDate}
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 mx-mobile-view">
+                                            <b>{labelsJson2.Depot} : </b> {item.depot}
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 mx-mobile-view">
+                                            <b>{labelsJson.Price} : </b>
+                                            <template if:false={item.fatDate}>
+                                                <div class="">Informe a data de Faturamento</div>
+                                            </template>
+                                            <template if:false={item.fatDate}>
+                                                <span class="mx-mobile-view">{newSalesOrder.CurrencyIsoCode} <lightning-formatted-number
+                                                    value= {item.unitValueWithInterest} format-style="decimal"
+                                                    minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number></span>
+                                            </template>
+                                            <!-- <span class="slds-text-color_weak slds-line-through mx-mobile-view"> {newSalesOrder.CurrencyIsoCode} {item.USDPrice}</span> -->
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 mx-mobile-view">
+                                            <b> {labelsJson.Quantity} : </b> {item.qty}
+                                            <!-- <div class="slds-grid slds-wrap">
+                                                <div class="slds-size_1-of-3">
+                                                   
+                                                </div>
+                                                <div class="slds-size_2-of-3">
+                                                    <lightning-input type="number" value={item.qty} data-index={index}
+                                            data-id={item.id} onblur={quantityChange} formatter="decimal" step="0.01"
+                                            onfocus={updateOldBalanceQtyOnCart} onkeypress={handleKeyPress}>
+                                        </lightning-input>
+                                        {item.qty}
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 mx-mobile-view">
+                                            <b> Subtotal AVEC : </b> {newSalesOrder.CurrencyIsoCode}
+                                            <lightning-formatted-number value={item.totalValue} format-style="decimal"
+                                                minimum-fraction-digits="2" maximum-fraction-digits="2">
+                                            </lightning-formatted-number>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="slds-button slds-button_brand slds-button_stretch" style="background: #FFC107; border: none;" onclick={updateLineItem}>Atualizar item de linha</button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <div class="slds-p-vertical_medium slds-grid slds-wrap slds-grid_align-end">
+                <div
+                    class="invoiceDetailSection slds-card slds-p-vertical_small slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                    <div class="slds-p-horizontal_small">
+                        <div>
+                            <lightning-input type="text" data-id="poNo" value={newSalesOrder.Purchase_Order_no__c}
+                                label={label.Purchase_Order_No} maxlength="30"
+                                title="Deve ser inserido o número do seu pedido interno de compra. Se não tiver um pedido de compra, incluir o número 1."
+                                onblur={validatePO} required></lightning-input>
+                        </div>
+                        <div class="">
+                            <lightning-input type="date" data-id="poDate" name="input2"
+                                label={label.Purchase_Order_Date} value={newSalesOrder.Purchase_Order_Date__c}
+                                title="Refere-se a data do seu pedido de compra interno. Caso não tenha essa informação, coloque a data de hoje."
+                                onblur={restrictPODate} required>
+                            </lightning-input>
+                        </div>
+                        <div class="">
+                            <lightning-textarea data-id="invoiceMessage" name="invoiceMessage" maxlength="3200" rows="1"
+                                label={label.Invoice_Message} value={newSalesOrder.Invoice_Message__c}
+                                onchange={validateInvoiceMessage} onblur={validateInvoice}></lightning-textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                    <div class="cartTotalSection slds-p-around_small">
+                        <div class="slds-text-heading_small slds-text-title_bold slds-p-bottom_small">
+                            {labelsJson.Cart_Total}</div>
+                        <div class="slds-grid slds-wrap slds-p-vertical_xx-small">
+                            <div class="slds-size_1-of-3">
+                                {labelsJson.Ship_Type}
+                            </div>
+                            <div class="slds-size_2-of-3 slds-text-align_right">
+                                {selectedDeliveryLabel}
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap slds-p-vertical_xx-small">
+                            <div class="slds-size_1-of-3">
+                                {labelsJson2.Product} ({totalProducts})
+                            </div>
+                            <div class="slds-size_2-of-3 slds-text-align_right">
+                                {newSalesOrder.CurrencyIsoCode} <lightning-formatted-number value={totalPrice}
+                                    format-style="decimal" minimum-fraction-digits="2" maximum-fraction-digits="2">
+                                </lightning-formatted-number>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-wrap slds-p-vertical_xx-small">
+                            <div class="slds-size_1-of-3">
+                                {label.Payment_Terms}
+                            </div>
+                            <div class="slds-size_2-of-3 slds-text-align_right">
+                                <template if:false={isUpdatePayTm}>
+                                    {selectedPayTm.label}
+                                    <lightning-button-icon icon-name="utility:edit" size="x-small"
+                                        class="slds-m-left_x-small" alternative-text="Edit" title="Edit"
+                                        onclick={updatePaytm}></lightning-button-icon>
+                                </template>
+                                <template if:true={isUpdatePayTm}>
+                                    <lightning-combobox name="Payment Terms" data-id="paymentTerm"
+                                        options={paymentTermDropDownList} variant="label-hidden"
+                                        value={selectedPaymentTerm} onchange={handlePayTmSelect}>
+                                    </lightning-combobox>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-wrap slds-p-vertical_xx-small">
+                            <div class="slds-size_1-of-3">
+                                {label.Currency}
+                            </div>
+                            <div class="slds-size_2-of-3 slds-text-align_right">
+                                <template if:false={isUpdateCurrency}>
+                                    {newSalesOrder.CurrencyIsoCode}
+                                    <lightning-button-icon icon-name="utility:edit" size="x-small"
+                                        class="slds-m-left_x-small" alternative-text="Edit" title="Edit"
+                                        onclick={updateCurency}></lightning-button-icon>
+                                </template>
+                                <template if:true={isUpdateCurrency}>
+                                    <lightning-combobox name="Currency" data-id="currency"
+                                        options={currencyDropDownList} value={selectedCurrency} variant="label-hidden"
+                                        onchange={handleCurrencyChange}>
+                                    </lightning-combobox>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="slds-border_top slds-p-top_small">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-size_1-of-3 slds-text-title_caps">
+                                    TOTAL
+                                </div>
+                                <div class="slds-size_2-of-3 slds-text-align_right slds-text-color_success">
+                                    {newSalesOrder.CurrencyIsoCode} <lightning-formatted-number value={totalPrice}
+                                        format-style="decimal" minimum-fraction-digits="2" maximum-fraction-digits="2">
+                                    </lightning-formatted-number>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-m-top_medium">
+                        <button class="slds-button slds-button_success slds-button_stretch" onclick={completeOrder} disabled={completeButtonDisabled}>{labelsJson2.Comp_Order}</button>
+                    </div>
+
+                    <div class="slds-m-top_small">
+                        <button class="slds-button slds-button_brand slds-button_stretch" style="background: #FFC107; border: none; color:black;" onclick={backToList}>{labelsJson2.Buy_More}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<template if:true={isShowModalOnPayTMChange}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- modal header start -->
+            <header class="slds-modal__header">
+                <h2 id="modal-heading-0112" class="slds-text-heading_medium slds-hyphenate">
+                    {labelsJson2.Select_Maturity}</h2>
+            </header>
+
+            <!-- modal body start -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-121">
+                <div class="">
+                    <lightning-input type="date" data-id="maturityDate" value={newSalesOrder.Maturity_Date__c}
+                        onchange={handleMaturityDateChange} onblur={restrictMaturityDate} label={label.Maturity_Date}
+                        required>
+                    </lightning-input>
+                </div>
+            </div>
+            <footer class="slds-modal__footer">
+                <div class="button-container">
+                    <button class="custom-btn slds-button slds-button_neutral" label={labelsJson.Cancel} onclick={cancelaturityDateModal}>{labelsJson.Cancel}</button>
+                    <button class="custom-btn slds-button slds-button_brand" label="Ok" onclick={saveMaturityDate}>Ok</button>
+                </div>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+<template if:true={showEditLineItemModal}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-011" aria-modal="true"
+        aria-describedby="modal-content-id-11" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- modal header start -->
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideEditLineItemModalBox}>
+                <lightning-icon icon-name="utility:close"
+                   alternative-text="close"
+                   variant="inverse"
+                   size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+             </button>
+                <h2 id="modal-heading-0111" class="slds-text-heading_medium slds-hyphenate">Editar item de linha do
+                    pedido de venda</h2>
+            </header>
+
+            <!-- modal body start -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1111">
+
+            </div>
+
+            <!-- modal footer start-->
+            <footer class="slds-modal__footer">
+                <div
+                    class="slds-x-small-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-small-size_1-of-2">
+                            <button class="slds-button slds-button_success slds-button_stretch saveButton" onclick={handleSaveLineItemsData}>{label.Save}</button>
+                        </div>
+                        <div class="slds-col slds-small-size_1-of-2">
+                            <button class="slds-button slds-button_destructive slds-button_stretch" onclick={handleRemove}>Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+<template if:true={showTermsConditions}>
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- Modal Header -->
+            <header class="slds-modal__header slds-modal__header_empty">
+                <h2 class="slds-text-heading_medium slds-p-around_medium">{termsLabels.TermsHeader}</h2>
+            </header>
+
+            <!-- Modal Body -->
+            <div class="slds-modal__content slds-p-around_medium">
+                <div class="slds-scrollable_y no-scrollbar" style="max-height: 250px;">
+                    <div lwc:dom="manual" class="terms"></div>
+                </div>
+
+                <div class="slds-grid slds-wrap slds-m-top_medium">
+                    <div class="slds-col slds-size_1-of-1 slds-m-bottom_small">
+                        <lightning-input type="checkbox" label={termsLabels.Agree} checked={isTermsChecked}
+                            onchange={handleTermsChange}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input type="checkbox" label={termsLabels.AgreeNoReturn} checked={isAgreedOnNoReturn}
+                            onchange={handleAgreedOnNoReturn}>
+                        </lightning-input>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <footer class="slds-modal__footer slds-grid slds-grid_align-end">
+                <lightning-button variant="brand" label="Confirmar a Compra" onclick={handleSaveOrder}
+                    disabled={isSubmitDisabled}>
+                </lightning-button>
+                <lightning-button label='Cancelar' onclick={handleCnclOrder}>
+                </lightning-button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+</div>
+
+</template>

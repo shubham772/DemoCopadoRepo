@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Grz_CommunityUserText</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grz_CommunityUserText</shortDescription>
+        <value>Plataforma de Vendas de Produtos Próximo ao Vencimento - B2B.</value>
+    </labels>
+    <labels>
+        <fullName>Grz_Profile_To_Show_Ecomm</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grz Profile To Show Ecomm</shortDescription>
+        <value>Brazil Sales District Manager,Brazil Sales Person,Brazil Partner Community Distributor Supply Profile,Brazil Partner Community Distributor Profile New</value>
+    </labels>
+    <labels>
+        <fullName>Grz_Sales_Order_Terms_And_Contions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grz_Sales Order Terms And Contions</shortDescription>
+        <value>By using this service, you agree to our terms and conditions. Please read them carefully.
+                            This agreement outlines the rules and responsibilities between the user and the platform.
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet, lorem sed
+                            porta fermentum, sapien libero egestas sem, sed posuere sem libero in odio.</value>
+    </labels>
+    <labels>
+        <fullName>Grz_SO_Community_Labels</fullName>
+        <categories>Grz</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grz_SO_Community_Labels</shortDescription>
+        <value>{&quot;Update_Detail&quot;:&quot;UPDATE DETAILS HERE&quot;,&quot;Delivery_Type&quot;:&quot;Type of Delivery&quot;,&quot;SO_Selection_Modal_Header&quot;:&quot;Provide Your Selection&quot;,&quot;Business_ID&quot;:&quot;Business ID&quot;,&quot;Featured_Products&quot;:&quot;Featured Products&quot;,&quot;Description&quot;:&quot;Description&quot;,&quot;Expiry_Date&quot;:&quot;Expiry Date&quot;,&quot;Unit_Price&quot;: &quot;Unit Price&quot;,&quot;Invoice_Date&quot;:&quot;Invoice Date&quot;,&quot;Qty_Available&quot;:&quot;Qty Available&quot;,&quot;Enter_Qty&quot;:&quot;Enter Qty&quot;,&quot;Total&quot;:&quot;Total&quot;,&quot;Subtotal&quot; : &quot;Subtotal&quot;,&quot;Quantity&quot;:&quot;Quantity&quot;,
+&quot;TOTAL&quot;:&quot;TOTAL&quot;,&quot;Cancel&quot; : &quot;Cancel&quot;,&quot;Add_to_Cart&quot; : &quot;Add to Cart&quot;,&quot;Buy_Now&quot; : &quot;Buy Now&quot;, &quot;Cancel&quot;:&quot;Cancel&quot;,&quot;Product_Selection&quot; : &quot;Product Selection&quot;,&quot;Shopping_Cart&quot;: &quot;Shopping Cart&quot;,&quot;Sales_Order&quot; : &quot;Sales Order&quot;,&quot;DELIVERY_ADDRESS&quot; : &quot;DELIVERY ADDRESS&quot;,&quot;Address&quot;: &quot;Address&quot;,&quot;Phone&quot;:&quot;Phone&quot;,&quot;Business_Number&quot; : &quot;Business Number&quot;,&quot;SAP_Code&quot; : &quot;SAP Code&quot;,&quot;ORDER_SUMMARY&quot; : &quot;ORDER SUMMARY&quot;,&quot;Product_Description&quot;:&quot;Product Description&quot;,&quot;Invoice_Date&quot;: &quot;Invoice Date&quot;,&quot;Price&quot;:&quot;Price&quot;,&quot;SKU_Code&quot;:&quot;SKU Code&quot;,&quot;Cart_Total&quot;:&quot;CART TOTAL&quot;,&quot;Ship_Type&quot;:&quot;Shipping Type&quot;}</value>
+    </labels>
+    <labels>
+        <fullName>Grz_SO_Community_Labels2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grz_SO_Community_Labels2</shortDescription>
+        <value>{&quot;Cust_Name&quot;:&quot;Customer Name&quot;,&quot;City&quot;:&quot;City&quot;,&quot;State&quot;:&quot;State&quot;,&quot;CLEAR&quot;:&quot;CLEAR&quot;,&quot;SUBMIT&quot;:&quot;SUBMIT&quot;,&quot;View_Prod&quot;:&quot;View Product&quot;,&quot;Previous&quot;:&quot;Previous&quot;,&quot;Next&quot;:&quot;Next&quot;,&quot;Delivery&quot;:&quot;Delivery&quot;,&quot;Pickup&quot;:&quot;Pickup&quot;,&quot;Home&quot;:&quot;Home&quot;,&quot;DownLoad_Btn&quot;:&quot;Download Product Instructions&quot;,&quot;Cust_Details&quot;:&quot;CUSTOMER DETAILS&quot;,&quot;Product&quot;:&quot;Product&quot;,&quot;Comp_Order&quot;:&quot;Complete Order&quot;,&quot;Buy_More&quot;:&quot;Buy more Products&quot;,&quot;Select_Maturity&quot;:&quot;Select Maturity Date&quot;,&quot;Tech_Material&quot;:&quot;Technical materials&quot;,&quot;Page&quot;:&quot;Page&quot;,&quot;All&quot;:&quot;All&quot;,&quot;Depot&quot;:&quot;Depot&quot;,&quot;Show_More&quot;:&quot;Show More&quot;,&quot;Show_Less&quot;:&quot;Show Less&quot;
+}</value>
+    </labels>
+    <labels>
+        <fullName>Grz_Terms_and_Contions_Labels</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grz_Terms and Contions Labels</shortDescription>
+        <value>{&quot;Agree&quot;: &quot;I agree to the Terms and Conditions&quot;,&quot;TermsHeader&quot; :&quot;Terms and Conditions&quot;,&quot;AgreeNoReturn&quot;:&quot;I am aware that return is not allowed for this purchase&quot;}</value>
+    </labels>
+    <labels>
+        <fullName>InventoryDepotCodes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InventoryDepotCodes</shortDescription>
+        <value>BR00,BR07</value>
+    </labels>
+    <labels>
+        <fullName>Tax_Number_3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Tax Number 3</shortDescription>
+        <value>Tax Number 3</value>
+    </labels>
+</CustomLabels>

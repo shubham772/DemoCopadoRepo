@@ -1,0 +1,42 @@
+<template>
+ <div class="carousel-container">
+        <template if:true={carouselItems}>
+            <div class="carousel">
+                <template for:each={carouselItems} for:item="item" for:index="index">
+                    <div key={item.Id} class="carousel-slide" if:true={item.isActive}>
+                        <div class="carousel-background" style={currentBackground}>
+                        </div>
+                        <!-- <div class="carousel-content slds-grid slds-grid_align-center">
+                            <template if:true={item.isShowTextBox}>
+                             <div class="slds-col text-block-parent slds-grid slds-wrap">
+                              <div class="slds-col text-block slds-size_1-of-1" onmouseenter={handleMouseEnter} onmouseleave={handleMouseLeave}>
+                                 <h1>{item.Title}</h1>
+                                <div class="description-container slds-scrollable_y" data-id={item.Id} lwc:dom="manual"></div>
+                              </div>
+                            </div>
+                            <div class="slds-col image-block">
+                                <img src={item.ImageUrl} alt={item.altText} class="carousel-image" />
+                            </div>
+                            </template>
+                            <template if:false={item.isShowTextBox}>
+                            <div class="slds-col image-block-false">
+                                <img src={item.ImageUrl} alt={item.altText} class="carousel-image" />
+                            </div>
+                            </template>
+                        </div> -->
+                    </div>
+                </template>
+            </div>
+        </template>
+        <!-- Navigation Buttons -->
+        <button class="prev" onclick={prevSlide}>❮</button>
+        <button class="next" onclick={nextSlide}>❯</button>
+
+        <!-- Dots Indicator -->
+        <div class="dots">
+            <template for:each={carouselItems} for:item="item" for:index="index">
+                <span key={item.id} class={item.dotClass} data-index={index} onclick={goToSlide}></span>
+            </template>
+        </div>
+    </div>
+</template>

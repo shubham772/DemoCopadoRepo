@@ -1,0 +1,5 @@
+.customClass{
+	/* height: 10rem; */
+	max-height: 11rem;
+    overflow-y: auto;
+}
